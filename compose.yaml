@@ -24,7 +24,56 @@ services:
         - postgres_db
         - broker
     ports:
-      - "8002:8000"  # Expose container port 8000 to host port 8000 
+      - "8002:8000"  # Expose container port 8000 to host port 8000
+  notification-service:
+    build:
+      context: ./notification_service
+      dockerfile: Dockerfile.dev
+    container_name: notification-service
+    volumes:
+      - ./notification_service:/code  # Sync local development directory with the container
+    depends_on:
+        - postgres_db
+        - broker
+    ports:
+      - "8007:8000"  # Expose container port 8000 to host port 8000
+  payment-service:
+    build:
+      context: ./payment_service
+      dockerfile: Dockerfile.dev
+    container_name: payment-service
+    volumes:
+      - ./payment_service:/code  # Sync local development directory with the container
+    depends_on:
+        - postgres_db
+        - broker
+    ports:
+      - "8008:8000"  # Expose container port 8000 to host port 8000 
+  order-service:
+
+    build:
+      context: ./order_service
+      dockerfile: Dockerfile.dev
+    container_name: order-service
+    volumes:
+      - ./order_service:/code  # Sync local development directory with the container
+    depends_on:
+        - postgres_db
+        - broker
+    ports:
+      - "8004:8000"  # Expose container port 8000 to host port 8000
+  user-service:
+    build:
+      context: ./user_service
+      dockerfile: Dockerfile.dev
+    container_name: user-service
+    volumes:
+      - ./user_service:/code  # Sync local development directory with the container
+    depends_on:
+        - postgres_db
+        - broker
+    ports:
+      - "8011:8000"  # Expose container port 8000 to host port 8000
   postgres_db:
     image: postgres:latest  # Use the official PostgreSQL image
     restart: always

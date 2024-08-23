@@ -11,4 +11,8 @@ def get_session() -> Generator[Session, None, None]:
 
 # Function to initialize the database
 def init_db():
+    # Drop existing tables
+    SQLModel.metadata.drop_all(engine)
+    # Create new tables
     SQLModel.metadata.create_all(engine)
+
